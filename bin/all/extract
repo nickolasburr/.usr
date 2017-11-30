@@ -1,0 +1,82 @@
+#!/usr/bin/env bash
+
+###
+### extract: Extract contents from a variety of file archive types.
+###
+
+if [[ $# -eq 0 ]]; then
+	printf 'Usage: extract FILE\n'
+
+	exit 1
+fi
+
+if [[ ! -f "$1" ]]; then
+	printf 'Invalid file %s\n\nUsage: extract FILE\n' "$1"
+
+	exit 1
+fi
+
+while [[ $# -gt 0 ]]; do
+	case $1 in
+		*.tar.bz2)
+			tar xjf $1
+
+			shift
+		;;
+		*.tar.gz)
+			tar xzf $1
+
+			shift
+		;;
+		*.bz2)
+			bunzip2 $1
+
+			shift
+		;;
+		*.rar)
+			unrar e $1
+
+			shift
+		;;
+		*.gz)
+			gunzip $1
+
+			shift
+		;;
+		*.tar)
+			tar xf $1
+
+			shift
+		;;
+		*.tbz2)
+			tar xjf $1
+
+			shift
+		;;
+		*.tgz)
+			tar xzf $1
+
+			shift
+		;;
+		*.zip)
+			unzip $1
+
+			shift
+		;;
+		*.Z)
+			uncompress $1
+
+			shift
+		;;
+		*.7z)
+			7z x $1
+
+			shift
+		;;
+		*)
+			printf 'Unsupported archive type "%s", unable to extract archive contents\n'
+
+			exit 1
+		;;
+	esac
+done

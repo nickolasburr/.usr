@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+if [[ $# -le 0 ]]; then
+	printf 'Usage: certctl [-h|--help] [-C|--certificate] [-P|--private-key] [-R|--csr]\n'
+fi
+
+while [[ $# -gt 0 ]]; do
+	case $1 in
+		-h|--help)
+			printf 'Usage: certctl [-h|--help] [-C|--certificate] [-P|--private-key] [-R|--csr]\n'
+
+			break
+		;;
+		-C|--certificate)
+			shift
+
+			CERT="$1"
+
+			openssl x509 -noout -modulus -in $CERT | openssl md5
+
+			break
+		;;
+		-P|--private-key)
+			shift
+
+			PKEY="$1"
+
+			openssl rsa -noout -modulus -in $PKEY | openssl md5
+
+			break
+		;;
+		-R|--csr)
+			shift
+
+			CSR="$1"
+
+			openssl req -noout -modulus -in $CSR | openssl md5
+
+			break
+		;;
+		*)
+			printf 'Invalid option %s\n\n' "$1"
+			printf 'Usage: certctl [-h|--help] [-C|--certificate] [-P|--private-key] [-R|--csr]\n'
+
+			break
+		;;
+	esac
+done

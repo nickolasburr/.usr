@@ -1,0 +1,36 @@
+" pathogen.vim
+execute pathogen#infect()
+
+" Enable syntax highlighting
+syntax enable
+
+" Enable line numbers, ruler, etc.
+set number
+set ruler
+set tabstop=4
+set shiftwidth=4
+set smarttab
+set autoindent
+set hlsearch
+
+" Color scheme
+colorscheme slate
+
+" Enable custom mappings
+nmap <S-Enter> O<Esc>
+nmap <CR> o<Esc>
+
+" Insert and command-line mode Caps Lock.
+" Lock search keymap to be the same as insert mode.
+set imsearch=-1
+" Load the keymap that acts like capslock.
+set keymap=insert-only_capslock
+" Turn it off by default.
+set iminsert=0
+
+" Change cursor color when CAPS Lock is enabled
+highlight Cursor guifg=NONE guibg=Green
+highlight lCursor guifg=NONE guibg=Cyan
+
+" Set syntax highlighting for specific filetypes
+au BufReadPost *.json set syntax=javascript

@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+###
+### validip: Determine if an argument is a valid IPv4 address.
+###
+
+IP="$1"
+STAT=1
+
+if [[ $IP =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
+	OIFS=$IFS
+	IFS='.'
+	IP=($IP)
+	IFS=$OIFS
+	[[ ${IP[0]} -le 255 && ${IP[1]} -le 255 && ${IP[2]} -le 255 && ${IP[3]} -le 255 ]]
+	STAT=$?
+fi
+
+exit $STAT

@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+###
+### pidof: Polyfill for Linux pidof.
+###
+
+pgrep $1

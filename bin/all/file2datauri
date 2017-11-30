@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+###
+### file2datauri: Convert file to data URI.
+###
+
+if [[ $# -le 0 ]]; then
+	printf 'Usage: file2datauri [-h|--help] INPUT OUTPUT\n'
+
+	exit 1
+fi
+
+if ! [[ -f "$1" ]]; then
+	printf '%s is not a valid filename\n' "$1"
+
+	exit 1
+fi
+
+MIMETYPE="$(file -b --mime-type $1)"
+
+cat $1 | base64 | (printf 'data:%s;base64,' "$MIMETYPE" && cat)

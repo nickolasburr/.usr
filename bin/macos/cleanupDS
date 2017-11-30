@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+###
+### cleanupDS: Remove *DS_Store metadata files.
+###
+
+PATHNAME="$1"
+
+while [[ $# -gt 0 ]]; do
+	case $1 in
+		-h|--help)
+			printf 'Usage: cleanupDS [-h|--help] [-S|--silent]\n'
+
+			exit 0
+		;;
+		-S|--silent)
+			shift
+
+			printf '%s\n' "$PWD"
+			
+			break
+		;;
+		*)
+			break
+		;;
+	esac
+done
+
+find "$PATHNAME" -type f -name "*DS_Store" -delete

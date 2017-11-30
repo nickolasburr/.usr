@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+###
+### Terminal prompt
+###
+
+__ps1_format_user_host () {
+	if [[ -z "$SSH_TTY" ]]; then
+		printf '%s@%s' "$1" "$2"
+	else
+		printf '%s@%s (\033[1;32mssh\033[0m)' "$1" "$2"
+	fi
+}
+
+export PS1="_____________________________________\n\$(__ps1_format_user_host ${USER} ${HOSTNAME}), cwd -> \w\$(__git_ps1 ', working branch -> (\033[1;36m%s\033[0m)')\n->$ "
+export PS2=">>>"
+export PROMPT_COMMAND="echo -ne '\033]0;${USER}@${HOSTNAME}\007';$PROMPT_COMMAND"

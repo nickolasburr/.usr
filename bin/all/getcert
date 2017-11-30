@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+###
+### getcert: Get SSL certificate information from a remote server.
+###
+
+HOSTNAME="$1"
+PORT="$2"
+
+if [[ -z "$PORT" ]]; then
+	PORT=443
+fi
+
+echo | openssl s_client -showcerts -servername $HOSTNAME -connect $HOSTNAME:$PORT 2>/dev/null | openssl x509 -inform pem -noout -text

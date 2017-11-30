@@ -1,0 +1,11 @@
+*.log
+*.sw[po]
+
+etc/all/mutt/**/cache/*
+!etc/all/mutt/**/cache/.gitkeep
+
+# Ignore symlinks in ~/.usr/bin
+bin/*
+!bin/all
+!bin/linux
+!bin/macos

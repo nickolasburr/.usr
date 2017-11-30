@@ -1,0 +1,124 @@
+#!/usr/bin/env bash
+
+###
+### mkcsr: Easily generate CSR, public/private key pairs via OpenSSL.
+###
+
+if [[ ! "$(\which openssl)" ]]; then
+	printf 'Could not locate OpenSSL executable. mkcsr depends on OpenSSL for use, please verify it is installed before continuing.\n'
+
+	exit 1
+fi
+
+USAGE=
+
+read -r -d '' USAGE <<-'EOF'
+	Usage: mkcsr [OPTIONS]
+
+	Options:
+	    --help, -h           Show usage details
+	    --bits, -B           Bits of entropy
+	    --csr-file, -C       Filename to use for CSR
+	    --digest, -D         Message digest algorithm
+	    --key-exchange, -E   Key exchange algorithm
+	    --config-file, -K    Filename of configuration details
+	    --key-file, -P       Filename to use for private key
+	    --common-name, -N    Common name to use when generating CSR
+EOF
+
+# CSR, private key, config files.
+CSRFILE=
+KEYFILE=
+TCONFIG=
+
+# OpenSSL defaults.
+TBITLEN="2048"
+TCOMMON="mkcsr.sh"
+TDIGEST="sha256"
+TKEYEXC="rsa"
+
+while [[ $# -gt 0 ]]; do
+	case $1 in
+		-h|--help)
+			printf '%s\n' "$USAGE"
+
+			exit 0
+		;;
+		-B|--bits)
+			shift
+
+			TBITLEN="$1"
+
+			shift
+		;;
+		-C|--csr-file)
+			shift
+
+			CSRFILE="$1"
+
+			shift
+		;;
+		-D|--digest)
+			shift
+
+			TDIGEST="$1"
+
+			shift
+		;;
+		-E|--key-exchange)
+			shift
+
+			TKEYEXC="$1"
+
+			shift
+		;;
+		-K|--config-file)
+			shift
+
+			TCONFIG="$1"
+
+			shift
+		;;
+		-P|--key-file)
+			shift
+
+			KEYFILE="$1"
+
+			shift
+		;;
+		-N|--common-name)
+			shift
+
+			TCOMMON="$1"
+
+			shift
+		;;
+		*)
+			printf 'Invalid option %s\n' "$1"
+			printf '\n%s\n' "$USAGE"
+
+			exit 1
+		;;
+	esac
+done
+
+[[ -z "$CSRFILE" ]] && CSRFILE="${TCOMMON}.csr"
+[[ -z "$KEYFILE" ]] && KEYFILE="${TCOMMON}.key"
+
+# If a filename was given as an option argument.
+if [[ ! -z "$TCONFIG" ]]; then
+
+	# Verify it's a valid filename, and exit on error if it's not.
+	if [[ ! -f "$TCONFIG" ]]; then
+		printf '%s is not a valid filename.\n' "$TCONFIG"
+
+		exit 1
+	fi
+
+	# Otherwise, continue on and let the user know that other options will be ignored in favor of the CSR config file.
+	printf 'Using file %s as source for CSR.\n' "$TCONFIG"
+
+	openssl req -new -$TDIGEST -nodes -out $CSRFILE -newkey $TKEYEXC:$TBITLEN -keyout $KEYFILE -config <(cat $TCONFIG)
+else
+	openssl req -new -$TDIGEST -nodes -out $CSRFILE -newkey $TKEYEXC:$TBITLEN -keyout $KEYFILE
+fi

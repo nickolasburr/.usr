@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+###
+### hex2bin: Convert hexidecimal to binary.
+###
+
+USAGE='Usage: hex2bin [-h|--help] hex'
+REGEX='0[xX][0-9a-fA-F]+'
+HEX="$1"
+
+if [[ -z $HEX ]]; then
+	printf '%s\n' "$USAGE"
+
+	exit 1
+fi
+
+if [[ ! $HEX =~ $REGEX ]]; then
+	printf 'Invalid hex value %s\n' "$HEX"
+
+	exit 1
+fi
+
+# Strip leading 0x from hex.
+HEX=$(echo $HEX | tr -d '0x')
+
+echo "ibase=16; obase=2; $HEX" | bc

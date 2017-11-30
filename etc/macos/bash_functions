@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+# cdt: Change directory to the top level of a Git repository.
+cdt () {
+	if [[ ! "$(git rev-parse --is-inside-work-tree)" ]] 2>/dev/null; then
+		printf 'Not a Git repository\n'
+
+		return 1
+	fi
+
+	cd $(git rev-parse --show-toplevel)
+}

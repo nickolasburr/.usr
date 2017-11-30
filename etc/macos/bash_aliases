@@ -1,0 +1,115 @@
+#!/usr/bin/env bash
+
+###
+### GNU-specific aliases (requires GNU coreutils)
+###
+
+alias cat='gcat'                           # cat:        Use GNU cat
+alias chgrp='gchgrp'                       # chgrp:      Use GNU chgrp
+alias chmod='gchmod'                       # chmod:      Use GNU chmod
+alias chown='gchown'                       # chown:      Use GNU chown
+alias cp='gcp'                             # cp:         Use GNU cp
+alias date='gdate'                         # date:       Use GNU date
+alias df='gdf'                             # df:         Use GNU df
+alias dircolors='gdircolors'               # dircolors:  Use GNU dircolors
+alias dirname='gdirname'                   # dirname:    Use GNU dirname
+alias echo='gecho'                         # echo:       Use GNU echo
+alias env='genv'                           # env:        Use GNU env
+alias factor='gfactor'                     # factor:     Use GNU factor
+alias find='gfind'                         # find:       Use GNU find
+alias head='ghead'                         # head:       Use GNU head
+alias ln='gln'                             # ln:         Use GNU ln
+alias l='gls --color=always'               # l:          In case I forget to press 'l' twice
+alias ls='gls'                             # ls:         Use GNU ls
+alias ll='gls -laF --color=always'         # ll:         Preferred ls implementation
+alias mv='gmv'                             # mv:         Use GNU mv
+alias numfmt='gnumfmt'                     # numfmt:     Use GNU numfmt
+alias printenv='gprintenv'                 # printenv:   Use GNU printenv
+alias printf='gprintf'                     # printf:     Use GNU printf
+alias pwd='gpwd'                           # pwd:        Use GNU pwd
+alias readlink='greadlink'                 # readlink:   Use GNU readlink
+alias realpath='grealpath'                 # realpath:   Use GNU realpath
+alias rm='grm'                             # rm:         Use GNU rm
+alias sc="scim"                            # sc:         Use sc-im instead of sc
+alias screen='gscreen'                     # screen:     Use GNU screen
+alias sed='gsed'                           # sed:        Use GNU sed
+alias shred='gshred'                       # shred:      Use GNU shred
+alias stat='gstat'                         # stat:       Use GNU stat
+alias stty='gstty'                         # stty:       Use GNU stty
+alias tail='gtail'                         # tail:       Use GNU tail
+alias tar='gtar'                           # tar:        Use GNU tar
+alias tee='gtee'                           # tee:        Use GNU tee
+alias touch='gtouch'                       # touch:      Use GNU touch
+alias tr='gtr'                             # tr:         Use GNU tr
+alias tty='gtty'                           # tty:        Use GNU tty
+alias uname='guname'                       # uname:      Use GNU uname
+alias users='gusers'                       # users:      Use GNU users
+alias wc='gwc'                             # wc:         Use GNU wc
+alias who='gwho'                           # who:        Use GNU who
+alias whoami='gwhoami'                     # whoami:     Use GNU who
+alias xargs='gxargs'                       # xargs:      Use GNU xargs
+
+###
+### General aliases
+###
+
+alias cic='set completion-ignore-case On'  # cic:          Make tab-completion case-insensitive
+alias diff='colordiff --side-by-side'      # diff:         Use colordiff as primary diff utility
+alias fix_stty='stty sane'                 # fix_stty:     Restore terminal settings when screwed up
+alias map='xargs -n1'                      # map:          Useful `xargs` shorthand (https://goo.gl/EFjkyJ)
+alias path='echo -e ${PATH//:/\\n}'        # path:         Echo all executable Paths
+alias which='type -all'                    # which:        Find executables
+alias ~="cd ~"                             # ~:            Go Home
+
+alias grep='grep --color=auto'             # Preferred grep implementation
+alias fgrep='fgrep --color=auto'           # Preferred fgrep implementation
+alias egrep='egrep --color=auto'           # Preferred egrep implementation
+
+###
+### Filesystem aliases
+###
+
+alias mountReadWrite='/sbin/mount -uw /'   # mountReadWrite: Mount device with read/write permissions
+alias numFiles='echo $(ls -l | wc -l)'     # numFiles:       Count total number of non-hidden files in current directory
+alias make1mb='mkfile 1m ./1MB.dat'        # make1mb:        Create a file that is 1mb in size (all zeros)
+alias make5mb='mkfile 5m ./5MB.dat'        # make5mb:        Create a file that is 5mb in size (all zeros)
+alias make10mb='mkfile 10m ./10MB.dat'     # make10mb:       Create a file that is 10mb in size (all zeros)
+
+###
+### Finder, Index searching aliases
+###
+
+# f: Open current directory in Finder
+alias f='open -a Finder ./'
+
+# finder{Hide,Show}Hidden: Hide/Show hidden files
+alias finderHideHidden='defaults write com.apple.finder ShowAllFiles FALSE'
+alias finderShowHidden='defaults write com.apple.finder ShowAllFiles TRUE'
+
+# lr: Full recursive directory listing
+alias lr='ls -R | grep ":$" | sed -e '\''s/:$//'\'' -e '\''s/[^-][^\/]*\//--/g'\'' -e '\''s/^/   /'\'' -e '\''s/-/|/'\'' | less'
+
+# qfind: Quickly search for file
+alias qfind="find . -name "
+
+###
+### Networking aliases
+###
+
+alias ifactive="ifconfig | pcregrep -M -o '^[^\t:]+:([^\n]|\n\t)*status: active'"
+
+###
+### System processes aliases
+###
+
+alias vmstat='vm_stat'
+
+###
+### Miscellaneous aliases
+###
+
+# afk: Lock the screen (when going AFK).
+alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
+
+# dt: Pipe content to file on MacOS Desktop.
+alias dt='tee ~/Desktop/terminalOut.txt'

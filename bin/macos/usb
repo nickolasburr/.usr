@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+###
+### usb: Clean wrapper for ioreg. Interfaces with IOUSBFamily and friends.
+###
+
+while [[ $# -gt 0 ]]; do
+	case "$1" in
+		-h|--help)
+			printf 'Usage: usb [-d|--devices] [-h|--help]\n'
+
+			exit 0
+		;;
+		-d|--devices)
+			ioreg -p IOUSB -w0 | sed 's/[^o]*o //; s/@.*$//' | grep -v '^Root.*'
+
+			shift
+		;;
+		*)
+			printf 'Invalid option %s\n' "$1"
+			printf '\nUsage: usb [-d|--devices] [-h|--help]\n'
+
+			exit 1
+		;;
+	esac
+done

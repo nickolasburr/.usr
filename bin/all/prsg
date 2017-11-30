@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+###
+### prsg: Generate pseudo-random string of n characters.
+###
+
+if [[ $# -eq 0 ]]; then
+	printf 'Usage: prsg LENGTH\n'
+
+	exit 1
+fi
+
+LENGTH="$1"
+REGEX='^[0-9]+$'
+
+if [[ ! $LENGTH =~ $REGEX ]]; then
+	printf 'Argument must be an integer\n\nUsage: prsg LENGTH\n'
+
+	exit 1
+fi
+
+LC_CTYPE=C tr -dc A-Za-z0-9_\!\@\#\$\%\^\&\*\(\)-+= < /dev/urandom | head -c $LENGTH | xargs ;

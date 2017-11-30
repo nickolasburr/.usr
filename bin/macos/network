@@ -1,0 +1,133 @@
+#!/usr/bin/env bash
+
+###
+### network: View and update network settings
+###
+
+if [[ "$(uname)" != "Darwin" ]]; then
+	printf 'This can only be ran on a macOS machine.\n'
+
+	exit 1
+fi
+
+# usage: Show usage details
+usage () {
+	local USAGE=
+
+	read -r -d '' USAGE <<-'EOF'
+		Usage: network [OPTIONS]
+
+		Options:
+		    --help,             -h            Show usage details
+		    --computer-name,    -C            Show computer name
+		    --ethernet,         -E            Show Ethernet configuration (if applicable)
+		    --mac-address,      -M <device>   Show MAC 
+		    --network-services, -N            Show available network services (Wi-Fi, Ethernet, VPN, etc.)
+		    --media,            -O <device>   Show media information for a device interface (e.g. 'en0' for Ethernet on MBP)
+		    --mtu,              -T <device>   Show MTU information for a device interface (e.g. 'en0' for Ethernet on MBP)
+		    --hardware-ports,   -P            Show available hardware ports (Ethernet, FireWire, etc.)
+EOF
+
+	echo "$USAGE"
+}
+
+# optinfo: Display information about an option when an option argument is missing.
+optinfo () {
+	printf 'Missing argument for %s option\n\n' "$1"
+}
+
+# Require at least one option be given
+if [[ $# -le 0 ]]; then
+	usage
+
+	exit 1
+fi
+
+while [[ $# -gt 0 ]]; do
+	case $1 in
+		-h|--help)
+			shift
+
+			usage
+
+			break
+		;;
+		-C|--computer-name)
+			shift
+
+			/usr/sbin/networksetup -getcomputername
+		;;
+		-E|--ethernet)
+			shift
+
+			/usr/sbin/networksetup -getinfo Ethernet
+		;;
+		-M|--mac-address)
+			if [[ -z "$2" ]]; then
+				optinfo "$1"
+
+				usage
+
+				break
+			fi
+
+			shift
+
+			/usr/sbin/networksetup -getmacaddress "$1"
+
+			shift
+		;;
+		-N|--network-services)
+			shift
+
+			/usr/sbin/networksetup -listallnetworkservices
+		;;
+		-O|--media)
+			if [[ -z "$2" ]]; then
+				optinfo "$1"
+
+				usage
+
+				break
+			fi
+
+			shift
+
+			/usr/sbin/networksetup -getMedia "$1"
+
+			shift
+		;;
+		-P|--hardware-ports)
+			shift
+
+			/usr/sbin/networksetup -listallhardwareports
+		;;
+		-T|--mtu)
+			if [[ -z "$2" ]]; then
+				optinfo "$1"
+
+				usage
+
+				break
+			fi
+
+			shift
+
+			/usr/sbin/networksetup -getMTU "$1"
+
+			shift
+		;;
+		-W|--wifi)
+			shift
+
+			/usr/sbin/networksetup -getinfo Wi-Fi
+		;;
+		*)
+			printf 'Invalid option %s\n\n' "$1"
+
+			usage
+
+			break
+		;;
+	esac
+done

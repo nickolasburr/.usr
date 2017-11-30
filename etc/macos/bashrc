@@ -1,0 +1,112 @@
+#!/usr/bin/env bash
+umask 0022
+
+shopt -s cdspell
+shopt -s histappend
+
+export BLOCKSIZE=1k
+export CLICOLOR=1
+export LSCOLORS=Cxfxcxdxbxegedabagacad
+
+export EDITOR="$(\which vim)"
+export PATH="$PATH:/usr/local/git/bin:/sw/bin:/usr/local/bin:/usr/local:/usr/local/sbin:/usr/libexec/ApplicationFirewall:/usr/local/opt/ncurses/bin"
+
+export GOPATH="$HOME/gowork"
+export GOROOT="/usr/local/bin/go"
+export PATH="$PATH:$GOROOT/bin"
+
+export DOTUSR="$HOME/.usr"
+export PATH="$PATH:$DOTUSR/bin"
+
+SCRIPTS=(
+	"git-extras.sh"
+	"git-prompt.sh"
+	"misc.sh"
+	"network.sh"
+	"system.sh"
+	"vagrant.sh"
+	"vbox.sh"
+	"mac.sh"
+);
+
+for SCRIPT in "${SCRIPTS[@]}"; do
+	if [[ -f "$DOTUSR/src/all/$SCRIPT" ]]; then
+		. "$DOTUSR/src/all/$SCRIPT"
+	fi
+
+	if [[ -f "$DOTUSR/src/macos/$SCRIPT" ]]; then
+		. "$DOTUSR/src/macos/$SCRIPT"
+	fi
+done
+
+unset SCRIPT
+unset SCRIPTS
+
+DOTFILES=(
+	".bash_aliases"
+	".bash_prompt"
+	".bash_functions"
+)
+
+for DOTFILE in "${DOTFILES[@]}"; do
+	if [[ -f "$HOME/$DOTFILE" ]]; then
+		. "$HOME/$DOTFILE"
+	fi
+done
+
+unset DOTFILE
+unset DOTFILES
+
+# If ~/.dircolors exists, use it.
+if [[ -f "$HOME/.dircolors" ]]; then
+	eval `dircolors ~/.dircolors`
+fi
+
+# Initialize rbenv.
+if [[ "$(\which rbenv)" ]]; then
+	eval "$(rbenv init -)"
+fi
+
+###
+### SSH configuration
+###
+
+# Load private keys for ssh-agent.
+if [[ -d "$HOME/.ssh" ]]; then
+	for PRIVKEY in $HOME/.ssh/*_rsa; do
+		if [[ -f "$PRIVKEY" && ! $(grep "ENCRYPTED" "$PRIVKEY") ]]; then
+			ssh-add "$PRIVKEY" &> /dev/null ;
+		fi
+	done
+fi
+
+unset PRIVKEY
+
+###
+### GnuPG configuration
+###
+
+if [[ "$(\which gpg-agent)" ]]; then
+	export GPG_TTY=$(tty)
+
+	if [[ -f "$HOME/.gpg-agent-info" ]]; then
+		. "$HOME/.gpg-agent-info"
+	fi
+
+	if [[ -S "${GPG_AGENT_INFO%%:*}" ]]; then
+		export GPG_AGENT_INFO
+	else
+		eval $(gpg-agent --daemon --allow-preset-passphrase --enable-ssh-support)
+	fi
+fi
+
+# Update terminal working directory path.
+update_terminal_cwd () {
+	# Identify the directory using a "file:" scheme URL,
+	# including the host name to disambiguate local vs.
+	# remote connections. Percent-escape spaces.
+	local SEARCH=' '
+	local REPLACE='%20'
+	local PWD_URL="file://$HOSTNAME${PWD//$SEARCH/$REPLACE}"
+	printf '\e]7;%s\a' "$PWD_URL"
+}
