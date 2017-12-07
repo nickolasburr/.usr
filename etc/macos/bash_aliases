@@ -1,53 +1,55 @@
 #!/usr/bin/env bash
 
 ###
-### GNU-specific aliases (requires GNU coreutils)
+### GNU-specific aliases (requires coreutils to be installed).
 ###
 
-alias cat='gcat'                           # cat:        Use GNU cat
-alias chgrp='gchgrp'                       # chgrp:      Use GNU chgrp
-alias chmod='gchmod'                       # chmod:      Use GNU chmod
-alias chown='gchown'                       # chown:      Use GNU chown
-alias cp='gcp'                             # cp:         Use GNU cp
-alias date='gdate'                         # date:       Use GNU date
-alias df='gdf'                             # df:         Use GNU df
-alias dircolors='gdircolors'               # dircolors:  Use GNU dircolors
-alias dirname='gdirname'                   # dirname:    Use GNU dirname
-alias echo='gecho'                         # echo:       Use GNU echo
-alias env='genv'                           # env:        Use GNU env
-alias factor='gfactor'                     # factor:     Use GNU factor
-alias find='gfind'                         # find:       Use GNU find
-alias head='ghead'                         # head:       Use GNU head
-alias ln='gln'                             # ln:         Use GNU ln
-alias l='gls --color=always'               # l:          In case I forget to press 'l' twice
-alias ls='gls'                             # ls:         Use GNU ls
-alias ll='gls -laF --color=always'         # ll:         Preferred ls implementation
-alias mv='gmv'                             # mv:         Use GNU mv
-alias numfmt='gnumfmt'                     # numfmt:     Use GNU numfmt
-alias printenv='gprintenv'                 # printenv:   Use GNU printenv
-alias printf='gprintf'                     # printf:     Use GNU printf
-alias pwd='gpwd'                           # pwd:        Use GNU pwd
-alias readlink='greadlink'                 # readlink:   Use GNU readlink
-alias realpath='grealpath'                 # realpath:   Use GNU realpath
-alias rm='grm'                             # rm:         Use GNU rm
-alias sc="scim"                            # sc:         Use sc-im instead of sc
-alias screen='gscreen'                     # screen:     Use GNU screen
-alias sed='gsed'                           # sed:        Use GNU sed
-alias shred='gshred'                       # shred:      Use GNU shred
-alias stat='gstat'                         # stat:       Use GNU stat
-alias stty='gstty'                         # stty:       Use GNU stty
-alias tail='gtail'                         # tail:       Use GNU tail
-alias tar='gtar'                           # tar:        Use GNU tar
-alias tee='gtee'                           # tee:        Use GNU tee
-alias touch='gtouch'                       # touch:      Use GNU touch
-alias tr='gtr'                             # tr:         Use GNU tr
-alias tty='gtty'                           # tty:        Use GNU tty
-alias uname='guname'                       # uname:      Use GNU uname
-alias users='gusers'                       # users:      Use GNU users
-alias wc='gwc'                             # wc:         Use GNU wc
-alias who='gwho'                           # who:        Use GNU who
-alias whoami='gwhoami'                     # whoami:     Use GNU who
-alias xargs='gxargs'                       # xargs:      Use GNU xargs
+if [[ "$(brew info coreutils)" ]] 2>/dev/null; then
+	alias cat='gcat'                           # cat:        Use GNU cat
+	alias chgrp='gchgrp'                       # chgrp:      Use GNU chgrp
+	alias chmod='gchmod'                       # chmod:      Use GNU chmod
+	alias chown='gchown'                       # chown:      Use GNU chown
+	alias cp='gcp'                             # cp:         Use GNU cp
+	alias date='gdate'                         # date:       Use GNU date
+	alias df='gdf'                             # df:         Use GNU df
+	alias dircolors='gdircolors'               # dircolors:  Use GNU dircolors
+	alias dirname='gdirname'                   # dirname:    Use GNU dirname
+	alias echo='gecho'                         # echo:       Use GNU echo
+	alias env='genv'                           # env:        Use GNU env
+	alias factor='gfactor'                     # factor:     Use GNU factor
+	alias find='gfind'                         # find:       Use GNU find
+	alias head='ghead'                         # head:       Use GNU head
+	alias ln='gln'                             # ln:         Use GNU ln
+	alias l='gls --color=always'               # l:          In case I forget to press 'l' twice
+	alias ls='gls'                             # ls:         Use GNU ls
+	alias ll='gls -laF --color=always'         # ll:         Preferred ls implementation
+	alias mv='gmv'                             # mv:         Use GNU mv
+	alias numfmt='gnumfmt'                     # numfmt:     Use GNU numfmt
+	alias printenv='gprintenv'                 # printenv:   Use GNU printenv
+	alias printf='gprintf'                     # printf:     Use GNU printf
+	alias pwd='gpwd'                           # pwd:        Use GNU pwd
+	alias readlink='greadlink'                 # readlink:   Use GNU readlink
+	alias realpath='grealpath'                 # realpath:   Use GNU realpath
+	alias rm='grm'                             # rm:         Use GNU rm
+	alias sc="scim"                            # sc:         Use sc-im instead of sc
+	alias screen='gscreen'                     # screen:     Use GNU screen
+	alias sed='gsed'                           # sed:        Use GNU sed
+	alias shred='gshred'                       # shred:      Use GNU shred
+	alias stat='gstat'                         # stat:       Use GNU stat
+	alias stty='gstty'                         # stty:       Use GNU stty
+	alias tail='gtail'                         # tail:       Use GNU tail
+	alias tar='gtar'                           # tar:        Use GNU tar
+	alias tee='gtee'                           # tee:        Use GNU tee
+	alias touch='gtouch'                       # touch:      Use GNU touch
+	alias tr='gtr'                             # tr:         Use GNU tr
+	alias tty='gtty'                           # tty:        Use GNU tty
+	alias uname='guname'                       # uname:      Use GNU uname
+	alias users='gusers'                       # users:      Use GNU users
+	alias wc='gwc'                             # wc:         Use GNU wc
+	alias who='gwho'                           # who:        Use GNU who
+	alias whoami='gwhoami'                     # whoami:     Use GNU who
+	alias xargs='gxargs'                       # xargs:      Use GNU xargs
+fi
 
 ###
 ### General aliases
