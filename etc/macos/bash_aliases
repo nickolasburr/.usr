@@ -1,7 +1,18 @@
 #!/usr/bin/env bash
 
 ###
-### GNU-specific aliases (requires coreutils to be installed).
+### Install Homebrew (if not already installed).
+###
+
+if [[ ! "$(\which brew)" ]] 2>/dev/null; then
+	echo -e "Homebrew is not installed. You can install it via:\n"
+	echo -e "/usr/bin/ruby -e \"\$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)\"\n"
+
+	return 1
+fi
+
+###
+### GNU coreutils aliases.
 ###
 
 if [[ "$(brew info coreutils)" ]] 2>/dev/null; then
@@ -48,6 +59,16 @@ if [[ "$(brew info coreutils)" ]] 2>/dev/null; then
 	alias wc='gwc'                             # wc:         Use GNU wc
 	alias who='gwho'                           # who:        Use GNU who
 	alias whoami='gwhoami'                     # whoami:     Use GNU who
+fi
+
+###
+### GNU findutils aliases.
+###
+
+if [[ "$(brew info findutils)" ]] 2>/dev/null; then
+	alias find='gfind'                         # find:       Use GNU find
+	alias locate='glocate'                     # locate:     Use GNU locate
+	alias updatedb='gupdatedb'                 # updatedb:   Use GNU locate
 	alias xargs='gxargs'                       # xargs:      Use GNU xargs
 fi
 
