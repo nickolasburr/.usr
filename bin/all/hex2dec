@@ -29,6 +29,6 @@ if [[ ! $HEX =~ $REGEX ]]; then
 fi
 
 # Strip leading 0x from hex.
-HEX=$(echo $HEX | tr -d '0x')
+HEX=$(echo $HEX | sed 's/^0[xX]//')
 
 echo $((16#$HEX))
